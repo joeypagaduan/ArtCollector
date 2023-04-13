@@ -29,7 +29,6 @@ const App = () => {
       <Search
         setIsLoading={setIsLoading}
         setSearchResults={setSearchResults}
-        // setInfo={info => setSearchResults({ ...searchResults, info })}
       />
       <Preview
         searchResults={searchResults}
@@ -49,4 +48,7 @@ const App = () => {
  * Boostrap the <App /> component into the '#app' element in the DOM,
  * using ReactDOM.render();
  */
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <App />, 
+  document.getElementById('app')
+);

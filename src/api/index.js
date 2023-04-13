@@ -13,11 +13,11 @@ export async function fetchQueryResultsFromTermAndValue(term, value) {
   try {
     const response = await fetch(`${ BASE_URL }/object?${ KEY }&${ term }=${ encodeURI(value.split('-').join('|')) }`);
     const data = await response.json();
-
     return data;
-  } catch (error) {
+  } 
+    catch (error) {
     throw error;
-  }
+    }
 }
 
 /**

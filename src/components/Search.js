@@ -9,8 +9,8 @@ import {
   fetchQueryResults
 } from '../api';
 
-const Search = props => {
-  const { setSearchResults, setInfo, setIsLoading } = props;
+const Search = (props) => {
+  const { setSearchResults, setIsLoading } = props;
   const [centuryList, setCenturyList] = useState([]);
   const [classificationList, setClassificationList] = useState([]);
   const [queryString, setQueryString] = useState('');
@@ -55,8 +55,6 @@ const Search = props => {
     try {
       const results = await fetchQueryResults({ century, classification, queryString });
       setSearchResults(results);
-      // setInfo(results.info);
-      // setRecords(results.records);
       console.log(results);
     } catch (err) {
       console.error(err);
