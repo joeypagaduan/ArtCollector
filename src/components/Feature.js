@@ -30,8 +30,28 @@ import { fetchQueryResultsFromTermAndValue } from '../api';
  *  - call setIsLoading, set it to false
  */
 const Searchable = (props) => {
+    const { searchTerm, searchValue, setIsLoading, setSearchResults } = props;
   
-}
+    const handleClick = async (event) => {
+      event.preventDefault();
+      setIsLoading(true);
+  
+      try {
+        const results = await fetchQueryResultsFromTermAndValue(searchTerm, searchValue);
+        setSearchResults(results);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    return (
+      <span className="content">
+        <a href="#" onClick={handleClick}>{searchValue}</a>
+      </span>
+    );
+  };
 
 /**
  * We need a new component called Feature which looks like this when no featuredResult is passed in as a prop:
@@ -68,7 +88,43 @@ const Searchable = (props) => {
  * This component should be exported as default.
  */
 const Feature = (props) => {
-
-}
-
+    const { featuredResult } = props;
+  
+    if (!featuredResult) {
+      return <main id="feature"></main>;
+    }
+  
+    const { title, dated, images, primaryimageurl, description, culture, style, technique, medium, dimensions, people, department, division, contact, creditline } = featuredResult;
+  
+    return (
+      <main id="feature">
+        <div className="object-feature">
+          <header>
+            <h3>{title}</h3>
+            <h4>{dated}</h4>
+          </header>
+          <section className="facts">
+            <span className="title">Fact Name</span>
+            <Searchable searchTerm="culture" searchValue={culture} setIsLoading={props.setIsLoading} setSearchResults={props.setSearchResults} />
+            <span className="title">Technique</span>
+            <Searchable searchTerm="technique" searchValue={technique} setIsLoading={props.setIsLoading} setSearchResults={props.setSearchResults} />
+            <span className="title">Medium</span>
+            <Searchable searchTerm="medium" searchValue={medium.toLowerCase()} setIsLoading={props.setIsLoading} setSearchResults={props.setSearchResults} />
+            {people && people.map((person, index) => (
+              <Fragment key={index}>
+                <span className="title">Person</span>
+                <Searchable searchTerm="person.displayname" searchValue={person.displayname} setIsLoading={props.setIsLoading} setSearchResults={props.setSearchResults} />
+              </Fragment>
+            ))}
+          </section>
+          <section className="photos">
+            {images && images.map((image, index) => (
+              <img key={index} src={image.url} alt={image.description} />
+            ))}
+          </section>
+        </div>
+      </main>
+    );
+};
+  
 export default Feature;
