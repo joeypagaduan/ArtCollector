@@ -9,7 +9,8 @@ import {
   fetchQueryResults
 } from '../api';
 
-const Search = ({ setSearchResults, setInfo, setIsLoading }) => {
+const Search = props => {
+  const { setSearchResults, setInfo, setIsLoading } = props;
   const [centuryList, setCenturyList] = useState([]);
   const [classificationList, setClassificationList] = useState([]);
   const [queryString, setQueryString] = useState('');
@@ -54,9 +55,11 @@ const Search = ({ setSearchResults, setInfo, setIsLoading }) => {
     try {
       const results = await fetchQueryResults({ century, classification, queryString });
       setSearchResults(results);
-      setInfo(results.info);
-    } catch (error) {
-      console.error(error);
+      // setInfo(results.info);
+      // setRecords(results.records);
+      console.log(results);
+    } catch (err) {
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -77,39 +80,49 @@ const Search = ({ setSearchResults, setInfo, setIsLoading }) => {
    * 
    * finally: call setIsLoading, set it to false
    */
-  return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        value={queryString}
-        onChange={(e) => setQueryString(e.target.value)}
-        placeholder="Search for an artwork or artist"
-      />
-      <select
-        value={classification}
-        onChange={(e) => setClassification(e.target.value)}
-      >
-        <option value="any">All classifications</option>
+
+return <form id="search" onSubmit={onSubmit}>
+  <fieldset>
+    <label htmlFor="keywords">Query</label>
+    <input 
+      id="keywords" 
+      type="text" 
+      placeholder="enter keywords..." 
+      value={queryString} 
+      onChange={(e) => setQueryString(e.target.value)}/>
+  </fieldset>
+  <fieldset>
+    <label htmlFor="select-classification">Classification <span className="classification-count">({ classificationList.length })</span></label>
+    <select 
+      name="classification"
+      id="select-classification"
+      value={classification} 
+      onChange={(e) => setClassification(e.target.value)}>
+      <option value="any">All classifications</option>
         {classificationList.map((classification) => (
           <option key={classification.id} value={classification.name}>
             {classification.name}
           </option>
         ))}
-      </select>
-      <select
-        value={century}
-        onChange={(e) => setCentury(e.target.value)}
-      >
-        <option value="any">All centuries</option>
-        {centuryList.map((century) => (
+    </select>
+  </fieldset>
+  <fieldset>
+    <label htmlFor="select-century">Century <span className="century-count">({ centuryList.length })</span></label>
+    <select 
+      name="century" 
+      id="select-century"
+      value={century} 
+      onChange={(e) => setCentury(e.target.value)}>
+      <option value="any">Any</option>
+      {centuryList.map((century) => (
           <option key={century.id} value={century.name}>
             {century.name}
           </option>
         ))}
-      </select>
-      <button type="submit">Search</button>
-    </form>
-  );
+    </select>
+   </fieldset>
+  <button>SEARCH</button>
+</form>
 };
 
 export default Search;

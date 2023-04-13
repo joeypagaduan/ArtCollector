@@ -6,9 +6,11 @@ import React from 'react';
  */
 import { fetchQueryResultsFromURL } from '../api';
 
-const Preview = ({ searchResults, setSearchResults, setFeaturedResult, setIsLoading }) => {
+const Preview = (props) => {
+  const { searchResults, setSearchResults, setFeaturedResult, setIsLoading } = props;
   const { info, records } = searchResults;
-  console.log(info)
+  console.log('preview:', searchResults);
+  // console.log(info)
   /**
    * Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
    * and also destructure info and records from props.searchResults
@@ -24,9 +26,11 @@ const Preview = ({ searchResults, setSearchResults, setFeaturedResult, setIsLoad
    */
   async function fetchPage(pageUrl) {
     setIsLoading(true);
+    console.log(pageUrl);
 
     try {
       const results = await fetchQueryResultsFromURL(pageUrl);
+      console.log('fetchPage', results);
       setSearchResults(results);
     } catch (error) {
       console.error(error);

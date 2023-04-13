@@ -93,7 +93,7 @@ const Feature = (props) => {
     if (!featuredResult) {
       return <main id="feature"></main>;
     }
-  
+  console.log('featured', featuredResult)
     const { title, dated, images, primaryimageurl, description, culture, style, technique, medium, dimensions, people, department, division, contact, creditline } = featuredResult;
   
     return (
@@ -109,7 +109,7 @@ const Feature = (props) => {
             <span className="title">Technique</span>
             <Searchable searchTerm="technique" searchValue={technique} setIsLoading={props.setIsLoading} setSearchResults={props.setSearchResults} />
             <span className="title">Medium</span>
-            <Searchable searchTerm="medium" searchValue={medium.toLowerCase()} setIsLoading={props.setIsLoading} setSearchResults={props.setSearchResults} />
+            <Searchable searchTerm="medium" searchValue={medium && medium.toLowerCase()} setIsLoading={props.setIsLoading} setSearchResults={props.setSearchResults} />
             {people && people.map((person, index) => (
               <Fragment key={index}>
                 <span className="title">Person</span>

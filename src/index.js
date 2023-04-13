@@ -29,7 +29,7 @@ const App = () => {
       <Search
         setIsLoading={setIsLoading}
         setSearchResults={setSearchResults}
-        setInfo={info => setSearchResults({ ...searchResults, info })}
+        // setInfo={info => setSearchResults({ ...searchResults, info })}
       />
       <Preview
         searchResults={searchResults}
